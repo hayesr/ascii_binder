@@ -19,6 +19,10 @@ def call_generate(branch_group, distro, page)
   end
 end
 
+def template_dir
+  File.expand_path(@template_dir, Dir.pwd) || super
+end
+
 def repo_check(repo_dir)
   missing_files = false
   # These must all be present
@@ -122,6 +126,7 @@ EOF
       opt :all_branches, "Instead of building only the current working branch, build all branches", :default => false
       opt :distro, "Instead of building all distros, build branches only for the specified distro.", :default => ''
       opt :page, "Build only the specified page for all distros and only the current working branch.", :default => ''
+      opt :tpl, "Change the template directory", :default => '_templates'
       conflicts :distro, :page
     end
   when "create"
@@ -288,6 +293,9 @@ when "build"
   branch_group = cmd_opts[:all_branches] ? :all : :working_only
   build_distro = cmd_opts[:distro] || ''
   refresh_page = cmd_opts[:page] || nil
+
+  @template_dir = cmd_opts[:tpl] || nil
+
   call_generate(branch_group,build_distro,refresh_page)
 when "package"
   clean_up

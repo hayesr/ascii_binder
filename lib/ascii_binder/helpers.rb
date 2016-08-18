@@ -277,7 +277,7 @@ module AsciiBinder
         args[:subtopic_shim]             = '../'
       end
 
-      template_path = File.expand_path("#{source_dir}/_templates/page.html.erb")
+      template_path = File.expand_path("#{template_dir}/page.html.erb")
       template_renderer.render(template_path, args)
     end
 
